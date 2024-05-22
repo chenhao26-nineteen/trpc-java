@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package trpc.TestApp.TestServer;
+
+option java_package = "com.tencent.trpc.demo.proto";
+option java_outer_classname = "ChenHaoRequestProtocol";
+
+// If do not customize url, no need to import the next proto file.
+import "trpc.proto";
+
+
+message ChenHaoRequest{
+  string name = 1;
+  int32 age = 2;
+}
+
+message ChenHaoResponse{
+  bool success = 1;
+  string message = 2;
+}
+
+service ChenHaoService {
+  rpc sayHi(ChenHaoRequest) returns (ChenHaoResponse);
+}
+
+
+

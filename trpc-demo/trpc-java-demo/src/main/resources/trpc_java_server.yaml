@@ -12,6 +12,14 @@ server:
       ip: 127.0.0.1       # Listen ip
       port: 12321         # Listen port
       network: tcp        # Network type, tcp or udp
+
+    - name: trpc.TestApp.TestServer.ChenHaoService  # Service name
+      impls: # Service implement classes
+        - com.tencent.trpc.demo.server.impl.ChenHaoServiceImpl
+      ip: 127.0.0.1       # Listen ip
+      port: 12323         # Listen port
+      network: tcp
+
     - name: trpc.TestApp.TestServer.Greeter2  # Service name
       impls: # Service implement classes
         - com.tencent.trpc.demo.server.impl.GreeterServiceImpl2

@@ -15,6 +15,8 @@ import com.tencent.trpc.core.common.ConfigManager;
 import com.tencent.trpc.core.common.TRpcSystemProperties;
 import com.tencent.trpc.core.rpc.RpcClientContext;
 import com.tencent.trpc.core.rpc.TRpcProxy;
+import com.tencent.trpc.demo.proto.ChenHaoRequestProtocol.ChenHaoRequest;
+import com.tencent.trpc.demo.proto.ChenHaoServiceAPI;
 import com.tencent.trpc.demo.proto.GreeterService2API;
 import com.tencent.trpc.demo.proto.GreeterServiceAPI;
 import com.tencent.trpc.demo.proto.HelloRequestProtocol;
@@ -37,6 +39,13 @@ public class ClientTest {
             GreeterServiceAPI api = TRpcProxy.getProxy("trpc.TestApp.TestServer.Greeter1", GreeterServiceAPI.class);
             runTests1(times, api);
             System.out.println("=================trpc tcp test done===================");
+
+
+            System.out.println("=================trpc tcp2 test===================");
+            ChenHaoServiceAPI api11 = TRpcProxy.getProxy("trpc.TestApp.TestServer.ChenHaoService", ChenHaoServiceAPI.class);
+            runTests11(times, api11);
+            System.out.println("=================trpc tcp2 test done===================");
+
 
             System.out.println("=================trpc udp test===================");
             GreeterService2API api2 = TRpcProxy.getProxy("trpc.TestApp.TestServer.Greeter2", GreeterService2API.class);
@@ -65,6 +74,19 @@ public class ClientTest {
                     .sayHello(new RpcClientContext(),
                             HelloRequestProtocol.HelloRequest.newBuilder()
                                     .setMessage("[GreeterService] tRPC-Java")
+                                    .build())
+                    .getMessage();
+            System.out.println(Thread.currentThread().getName() + ">>>[client] receive msg: " + message);
+            TimeUnit.SECONDS.sleep(1);
+        }
+    }
+
+    private static void runTests11(int times, ChenHaoServiceAPI proxy) throws Exception {
+        for (int i = 0; i < times; i++) {
+            String message = proxy
+                    .sayHi(new RpcClientContext(),
+                            ChenHaoRequest.newBuilder()
+                                    .setName("[GreeterService] tRPC-ChenHAO")
                                     .build())
                     .getMessage();
             System.out.println(Thread.currentThread().getName() + ">>>[client] receive msg: " + message);

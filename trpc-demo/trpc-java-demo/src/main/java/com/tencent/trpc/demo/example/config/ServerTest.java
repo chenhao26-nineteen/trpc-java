@@ -14,7 +14,9 @@ package com.tencent.trpc.demo.example.config;
 import com.tencent.trpc.core.common.ConfigManager;
 import com.tencent.trpc.core.common.config.ProviderConfig;
 import com.tencent.trpc.core.common.config.ServiceConfig;
+import com.tencent.trpc.demo.proto.ChenHaoServiceAPI;
 import com.tencent.trpc.demo.proto.GreeterServiceAPI;
+import com.tencent.trpc.demo.server.impl.ChenHaoServiceImpl;
 import com.tencent.trpc.demo.server.impl.GreeterServiceImpl;
 
 public class ServerTest {
@@ -38,14 +40,21 @@ public class ServerTest {
         ProviderConfig<GreeterServiceAPI> providerConfig = new ProviderConfig<>();
         providerConfig.setRef(new GreeterServiceImpl());
 
+        // 使用代码的方式尝鲜trpc调用
+        ProviderConfig<ChenHaoServiceAPI> providerConfig2 = new ProviderConfig<>();
+        providerConfig2.setRef(new ChenHaoServiceImpl());
+
+
         // export trpc server
         ServiceConfig tRpcServiceConfig = getTRpcServiceConfig();
         tRpcServiceConfig.addProviderConfig(providerConfig);
+        tRpcServiceConfig.addProviderConfig(providerConfig2);
         tRpcServiceConfig.export();
 
         // export http server
         ServiceConfig httpServiceConfig = getHttpServiceConfig();
         httpServiceConfig.addProviderConfig(providerConfig);
+        httpServiceConfig.addProviderConfig(providerConfig2);
         httpServiceConfig.export();
     }
 
